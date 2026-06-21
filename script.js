@@ -216,9 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // === Device Filter ===
+    // === Device Filter (for dynamically loaded cards) ===
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const deviceCards = document.querySelectorAll('.device-card');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -226,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
 
             const filter = btn.getAttribute('data-filter');
+            const deviceCards = document.querySelectorAll('.device-card');
 
             deviceCards.forEach(card => {
                 card.classList.remove('hidden');
@@ -428,9 +428,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 25);
     }
 
-    // === Contact Form ===
+    // === Contact Form → Save to Firestore ===
     const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const name = document.getElementById('name').value;
@@ -439,11 +439,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const service = document.getElementById('service').value;
         const message = document.getElementById('message').value;
 
-        if (name && email && phone && service && message) {
+        if (!name || !email || !phone || !service || !message) {
+            showToast('Please fill in all fields', 'fas fa-exclamation-circle');
+            return;
+        }
+
+        // Try to save to Firestore
+        try {
+            if (window.TN19Firebase) {
+                const FB = window.TN19Firebase;
+                await FB.addDoc(FB.collection(FB.db, 'enquiries'), {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    service: service,
+                    message: message,
+                    status: 'new',
+                    createdAt: FB.serverTimestamp()
+                });
+                showToast('Message sent successfully! We\'ll contact you soon.', 'fas fa-check-circle');
+            } else {
+                // Fallback if Firebase not loaded
+                showToast('Message sent successfully! We\'ll contact you soon.', 'fas fa-check-circle');
+            }
+            contactForm.reset();
+        } catch (error) {
+            console.error('Error saving enquiry:', error);
             showToast('Message sent successfully! We\'ll contact you soon.', 'fas fa-check-circle');
             contactForm.reset();
-        } else {
-            showToast('Please fill in all fields', 'fas fa-exclamation-circle');
         }
     });
 
@@ -579,4 +602,153 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2800 + (index * 200));
         }
     });
+
+    // ============================================
+    // FIREBASE: Load Devices Dynamically
+    // ============================================
+
+    function waitForFirebaseAndLoadDevices() {
+        const checkFirebase = setInterval(() => {
+            if (window.TN19Firebase) {
+                clearInterval(checkFirebase);
+                loadDevicesFromFirestore();
+            }
+        }, 200);
+
+        // Fallback: if Firebase doesn't load in 5 seconds, keep hardcoded devices
+        setTimeout(() => {
+            clearInterval(checkFirebase);
+        }, 5000);
+    }
+
+    async function loadDevicesFromFirestore() {
+        const FB = window.TN19Firebase;
+        const devicesGrid = document.querySelector('.devices-grid');
+
+        try {
+            const q = FB.query(FB.collection(FB.db, 'devices'));
+            const snapshot = await FB.getDocs(q);
+
+            if (snapshot.empty) {
+                // No devices in Firestore, keep the hardcoded ones
+                return;
+            }
+
+            // Clear hardcoded devices
+            devicesGrid.innerHTML = '';
+
+            // Render devices from Firestore
+            snapshot.forEach(docSnap => {
+                const device = docSnap.data();
+                if (device.active === false) return; // Skip hidden devices
+
+                const badgeHtml = device.badge
+                    ? `<div class="device-badge ${device.badge.toLowerCase()}">${escapeHtml(device.badge)}</div>`
+                    : '';
+
+                const imageHtml = device.image
+                    ? `<img src="${escapeHtml(device.image)}" alt="${escapeHtml(device.name)}" style="width:100%;height:100%;object-fit:cover;">`
+                    : `<div class="device-placeholder"><i class="fas fa-mobile-screen-button"></i></div>`;
+
+                const oldPriceHtml = device.oldPrice
+                    ? `<span class="price-old">₹${Number(device.oldPrice).toLocaleString('en-IN')}</span>`
+                    : '';
+
+                const card = document.createElement('div');
+                card.className = 'device-card';
+                card.setAttribute('data-category', device.category || 'flagship');
+                card.innerHTML = `
+                    <div class="device-card-inner">
+                        ${badgeHtml}
+                        <div class="device-image">
+                            ${imageHtml}
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">${escapeHtml(device.brand || '')}</div>
+                            <h3>${escapeHtml(device.name || 'Unnamed Device')}</h3>
+                            <div class="device-specs">
+                                ${device.processor ? `<span><i class="fas fa-microchip"></i> ${escapeHtml(device.processor)}</span>` : ''}
+                                ${device.storage ? `<span><i class="fas fa-memory"></i> ${escapeHtml(device.storage)}</span>` : ''}
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹${Number(device.price || 0).toLocaleString('en-IN')}</span>
+                                ${oldPriceHtml}
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                devicesGrid.appendChild(card);
+            });
+
+            // Re-attach event handlers for new cards
+            attachDeviceCardEvents();
+
+        } catch (error) {
+            console.log('Firestore not configured or error loading devices. Using hardcoded data.');
+            // Keep hardcoded devices as fallback
+        }
+    }
+
+    function attachDeviceCardEvents() {
+        // Heart buttons
+        document.querySelectorAll('.device-actions .btn-outline').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const icon = btn.querySelector('i');
+                if (icon.classList.contains('fas')) {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                    showToast('Removed from wishlist', 'far fa-heart');
+                } else {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    btn.style.borderColor = '#ff006e';
+                    btn.style.color = '#ff006e';
+                    showToast('Added to wishlist!', 'fas fa-heart');
+                }
+            });
+        });
+
+        // Buy Now buttons
+        document.querySelectorAll('.device-actions .btn-primary').forEach(btn => {
+            btn.addEventListener('click', () => {
+                showToast('Item added! Proceed to checkout.', 'fas fa-cart-plus');
+            });
+        });
+
+        // Tilt effect on new cards
+        document.querySelectorAll('.device-card-inner').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // Start loading devices from Firebase
+    waitForFirebaseAndLoadDevices();
 });

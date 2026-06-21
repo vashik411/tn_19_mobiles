@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TN19 Mobiles - Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-body">
+
+    <!-- Admin Login Screen -->
+    <div class="admin-login" id="adminLogin">
+        <div class="login-bg-grid"></div>
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <span class="logo-tn">TN</span><span class="logo-19">19</span>
+                </div>
+                <h1>Admin Dashboard</h1>
+                <p>Sign in to manage your store</p>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="loginEmail" placeholder="admin@tn19mobiles.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="login-error" id="loginError"></div>
+                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Sign In</span>
+                </button>
+                <a href="index.html" class="login-back">
+                    <i class="fas fa-arrow-left"></i> Back to Website
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <span class="logo-tn">TN</span><span class="logo-19">19</span>
+                    <span class="logo-text">ADMIN</span>
+                </div>
+                <button class="sidebar-close" id="sidebarClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-tab="enquiries">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <span>Enquiries</span>
+                    <span class="sidebar-badge" id="enquiryBadge">0</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="devices">
+                    <i class="fas fa-mobile-screen-button"></i>
+                    <span>Devices</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="settings">
+                    <i class="fas fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" class="sidebar-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View Website</span>
+                </a>
+                <button class="sidebar-link logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Top Bar -->
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="topbar-title" id="topbarTitle">Enquiries</h2>
+                </div>
+                <div class="topbar-right">
+                    <span class="admin-user" id="adminUser">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="adminEmail">admin</span>
+                    </span>
+                </div>
+            </header>
+
+            <!-- Enquiries Tab -->
+            <div class="admin-tab active" id="tab-enquiries">
+                <div class="tab-header">
+                    <div class="tab-stats">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="stat-card-info">
+                                <span class="stat-card-number" id="totalEnquiries">0</span>
+                                <span class="stat-card-label">Total Enquiries</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-icon new"><i class="fas fa-bell"></i></div>
+                            <div class="stat-card-info">
+                                <span class="stat-card-number" id="newEnquiries">0</span>
+                                <span class="stat-card-label">New</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-icon read"><i class="fas fa-check-circle"></i></div>
+                            <div class="stat-card-info">
+                                <span class="stat-card-number" id="readEnquiries">0</span>
+                                <span class="stat-card-label">Read</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="enquirySearch" placeholder="Search enquiries...">
+                        </div>
+                        <select class="filter-select" id="enquiryFilter">
+                            <option value="all">All Status</option>
+                            <option value="new">New</option>
+                            <option value="read">Read</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="enquiries-list" id="enquiriesList">
+                    <div class="empty-state" id="enquiriesEmpty">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No Enquiries Yet</h3>
+                        <p>When users submit the contact form, enquiries will appear here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Devices Tab -->
+            <div class="admin-tab" id="tab-devices">
+                <div class="tab-header">
+                    <div class="tab-stats">
+                        <div class="stat-card">
+                            <div class="stat-card-icon"><i class="fas fa-mobile"></i></div>
+                            <div class="stat-card-info">
+                                <span class="stat-card-number" id="totalDevices">0</span>
+                                <span class="stat-card-label">Total Devices</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-icon new"><i class="fas fa-star"></i></div>
+                            <div class="stat-card-info">
+                                <span class="stat-card-number" id="activeDevices">0</span>
+                                <span class="stat-card-label">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="deviceSearch" placeholder="Search devices...">
+                        </div>
+                        <select class="filter-select" id="deviceFilter">
+                            <option value="all">All Categories</option>
+                            <option value="flagship">Flagship</option>
+                            <option value="midrange">Mid-Range</option>
+                            <option value="budget">Budget</option>
+                            <option value="refurbished">Refurbished</option>
+                        </select>
+                        <button class="btn btn-primary" id="addDeviceBtn">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Device</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="devices-table-wrapper">
+                    <table class="admin-table" id="devicesTable">
+                        <thead>
+                            <tr>
+                                <th>Device</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Specs</th>
+                                <th>Badge</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devicesTableBody">
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="devicesEmpty" style="display: none;">
+                        <i class="fas fa-mobile-screen-button"></i>
+                        <h3>No Devices Listed</h3>
+                        <p>Click "Add Device" to list your first mobile phone for sale.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="admin-tab" id="tab-settings">
+                <div class="settings-content">
+                    <h3><i class="fas fa-info-circle"></i> Firestore Setup Instructions</h3>
+                    <div class="setup-guide">
+                        <div class="setup-step">
+                            <span class="setup-number">1</span>
+                            <div>
+                                <h4>Create Firebase Project</h4>
+                                <p>Go to <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a> and create a new project.</p>
+                            </div>
+                        </div>
+                        <div class="setup-step">
+                            <span class="setup-number">2</span>
+                            <div>
+                                <h4>Enable Firestore</h4>
+                                <p>In Firebase Console → Build → Firestore Database → Create Database. Start in <strong>test mode</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="setup-step">
+                            <span class="setup-number">3</span>
+                            <div>
+                                <h4>Enable Authentication</h4>
+                                <p>In Firebase Console → Build → Authentication → Get Started → Enable <strong>Email/Password</strong> provider. Create your admin account.</p>
+                            </div>
+                        </div>
+                        <div class="setup-step">
+                            <span class="setup-number">4</span>
+                            <div>
+                                <h4>Get Config</h4>
+                                <p>Go to Project Settings → General → Your apps → Add web app → Copy the config object and paste it in <code>firebase-config.js</code>.</p>
+                            </div>
+                        </div>
+                        <div class="setup-step">
+                            <span class="setup-number">5</span>
+                            <div>
+                                <h4>Set Security Rules</h4>
+                                <p>In Firestore → Rules → Paste the following rules and publish:</p>
+                                <pre class="rules-code">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /enquiries/{doc} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /devices/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-actions">
+                        <h3><i class="fas fa-database"></i> Seed Demo Data</h3>
+                        <p>Add sample devices to Firestore to see how the website looks with data.</p>
+                        <button class="btn btn-primary" id="seedDataBtn">
+                            <i class="fas fa-seedling"></i>
+                            <span>Load Demo Devices</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Device Modal (Add/Edit) -->
+    <div class="modal-overlay" id="deviceModal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Device</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="deviceForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Brand *</label>
+                        <input type="text" id="deviceBrandInput" placeholder="e.g., Apple, Samsung" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Device Name *</label>
+                        <input type="text" id="deviceNameInput" placeholder="e.g., iPhone 15 Pro Max" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="deviceCategoryInput" required>
+                            <option value="">Select Category</option>
+                            <option value="flagship">Flagship</option>
+                            <option value="midrange">Mid-Range</option>
+                            <option value="budget">Budget</option>
+                            <option value="refurbished">Refurbished</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Badge</label>
+                        <select id="deviceBadgeInput">
+                            <option value="">None</option>
+                            <option value="New">New</option>
+                            <option value="Sale">Sale</option>
+                            <option value="Refurbished">Refurbished</option>
+                            <option value="Hot">Hot</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Sale Price (₹) *</label>
+                        <input type="number" id="devicePriceInput" placeholder="e.g., 129999" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Original Price (₹)</label>
+                        <input type="number" id="deviceOldPriceInput" placeholder="e.g., 139999">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Processor</label>
+                        <input type="text" id="deviceProcessorInput" placeholder="e.g., A17 Pro, Snapdragon 8 Gen 3">
+                    </div>
+                    <div class="form-group">
+                        <label>Storage</label>
+                        <input type="text" id="deviceStorageInput" placeholder="e.g., 256GB">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" id="deviceImageInput" placeholder="https://example.com/phone-image.jpg">
+                    <small class="form-hint">Paste a direct link to the device image. Leave blank for placeholder.</small>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="deviceActiveInput" checked>
+                            Show on Website
+                        </label>
+                    </div>
+                </div>
+                <input type="hidden" id="deviceEditId" value="">
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="modalSave">
+                        <i class="fas fa-save"></i>
+                        <span>Save Device</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enquiry Detail Modal -->
+    <div class="modal-overlay" id="enquiryModal" style="display: none;">
+        <div class="modal enquiry-detail-modal">
+            <div class="modal-header">
+                <h3>Enquiry Details</h3>
+                <button class="modal-close" id="enquiryModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="enquiry-detail-content" id="enquiryDetailContent">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" id="enquiryDeleteBtn">
+                    <i class="fas fa-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <button type="button" class="btn btn-primary" id="enquiryModalCloseBtn">
+                    <i class="fas fa-check"></i>
+                    <span>Mark as Read</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
