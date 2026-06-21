@@ -350,9 +350,29 @@ service cloud.firestore {
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="url" id="deviceImageInput" placeholder="https://example.com/phone-image.jpg">
-                    <small class="form-hint">Paste a direct link to the device image. Leave blank for placeholder.</small>
+                    <label>Device Image</label>
+                    <div class="image-upload-area" id="imageUploadArea">
+                        <input type="file" id="deviceImageFile" accept="image/*" style="display:none;">
+                        <div class="upload-placeholder" id="uploadPlaceholder">
+                            <i class="fas fa-cloud-arrow-up"></i>
+                            <p>Click to upload image from your computer</p>
+                            <small>or drag & drop (JPG, PNG, WebP — max 2MB)</small>
+                        </div>
+                        <div class="upload-preview" id="uploadPreview" style="display:none;">
+                            <img id="previewImg" src="" alt="Preview">
+                            <button type="button" class="upload-remove" id="uploadRemove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="image-url-alt">
+                        <small>Or paste an image URL:</small>
+                        <input type="url" id="deviceImageInput" placeholder="https://example.com/phone-image.jpg">
+                    </div>
+                    <div class="upload-progress" id="uploadProgress" style="display:none;">
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                        <small id="progressText">Uploading...</small>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">

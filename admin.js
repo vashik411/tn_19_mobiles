@@ -69,6 +69,18 @@ function waitForFirebase() {
     const modalCancel = document.getElementById('modalCancel');
     const deviceEditId = document.getElementById('deviceEditId');
 
+    // Image Upload
+    const imageUploadArea = document.getElementById('imageUploadArea');
+    const deviceImageFile = document.getElementById('deviceImageFile');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const uploadPreview = document.getElementById('uploadPreview');
+    const previewImg = document.getElementById('previewImg');
+    const uploadRemove = document.getElementById('uploadRemove');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    let selectedFile = null;
+
     // Enquiry Modal
     const enquiryModal = document.getElementById('enquiryModal');
     const enquiryDetailContent = document.getElementById('enquiryDetailContent');
@@ -82,6 +94,127 @@ function waitForFirebase() {
     let allEnquiries = [];
     let allDevices = [];
     let currentEnquiryId = null;
+
+    // ============================================
+    // IMAGE UPLOAD HANDLERS
+    // ============================================
+
+    // Click to upload
+    imageUploadArea.addEventListener('click', (e) => {
+        if (e.target === uploadRemove || e.target.closest('.upload-remove')) return;
+        deviceImageFile.click();
+    });
+
+    // File selected
+    deviceImageFile.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+
+    // Drag & drop
+    imageUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageUploadArea.style.borderColor = 'var(--primary)';
+    });
+    imageUploadArea.addEventListener('dragleave', () => {
+        imageUploadArea.style.borderColor = '';
+    });
+    imageUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageUploadArea.style.borderColor = '';
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleFileSelect(e.dataTransfer.files[0]);
+        }
+    });
+
+    // Remove selected file
+    uploadRemove.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedFile = null;
+        deviceImageFile.value = '';
+        uploadPlaceholder.style.display = 'flex';
+        uploadPreview.style.display = 'none';
+    });
+
+    function handleFileSelect(file) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            showToast('Please select an image file', 'fas fa-exclamation-circle');
+            return;
+        }
+        // Validate file size (2MB max)
+        if (file.size > 2 * 1024 * 1024) {
+            showToast('Image must be less than 2MB', 'fas fa-exclamation-circle');
+            return;
+        }
+        selectedFile = file;
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImg.src = e.target.result;
+            uploadPlaceholder.style.display = 'none';
+            uploadPreview.style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+        // Clear URL input since file takes priority
+        document.getElementById('deviceImageInput').value = '';
+    }
+
+    async function uploadImageToStorage(file) {
+        var imgbbApiKey = FB.imgbbKey;
+        if (!imgbbApiKey || imgbbApiKey === '5cba07eb58c41678195a60e563e80d7f') {
+            throw new Error('ImgBB API key not configured. Sign up free at imgbb.com and paste your key in firebase-config.js');
+        }
+
+        // Show progress
+        uploadProgress.style.display = 'block';
+        progressFill.style.width = '50%';
+        progressText.textContent = 'Uploading to ImgBB...';
+
+        // Convert file to base64
+        var base64 = await new Promise((resolve, reject) => {
+            var reader = new FileReader();
+            reader.onload = function () { resolve(reader.result.split(',')[1]); };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+
+        // Upload to ImgBB
+        var formData = new FormData();
+        formData.append('key', imgbbApiKey);
+        formData.append('image', base64);
+
+        var response = await fetch('https://api.imgbb.com/1/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        var result = await response.json();
+
+        progressFill.style.width = '100%';
+        progressText.textContent = 'Upload complete!';
+
+        setTimeout(function () {
+            uploadProgress.style.display = 'none';
+            progressFill.style.width = '0%';
+        }, 1000);
+
+        if (!result.success) {
+            throw new Error(result.error?.message || 'ImgBB upload failed');
+        }
+
+        return result.data.url;
+    }
+
+    function resetUploadState() {
+        selectedFile = null;
+        if (deviceImageFile) deviceImageFile.value = '';
+        if (uploadPlaceholder) uploadPlaceholder.style.display = 'flex';
+        if (uploadPreview) uploadPreview.style.display = 'none';
+        if (uploadProgress) uploadProgress.style.display = 'none';
+        if (progressFill) progressFill.style.width = '0%';
+    }
 
     // ============================================
     // AUTHENTICATION
@@ -443,6 +576,7 @@ function waitForFirebase() {
         deviceForm.reset();
         deviceEditId.value = '';
         document.getElementById('deviceActiveInput').checked = true;
+        resetUploadState();
         deviceModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     });
@@ -453,6 +587,7 @@ function waitForFirebase() {
         document.body.style.overflow = '';
         deviceForm.reset();
         deviceEditId.value = '';
+        resetUploadState();
     }
 
     modalClose.addEventListener('click', closeDeviceModal);
@@ -464,27 +599,34 @@ function waitForFirebase() {
     // Device form submit
     deviceForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        const data = {
-            brand: document.getElementById('deviceBrandInput').value.trim(),
-            name: document.getElementById('deviceNameInput').value.trim(),
-            category: document.getElementById('deviceCategoryInput').value,
-            badge: document.getElementById('deviceBadgeInput').value,
-            price: Number(document.getElementById('devicePriceInput').value),
-            oldPrice: Number(document.getElementById('deviceOldPriceInput').value) || null,
-            processor: document.getElementById('deviceProcessorInput').value.trim(),
-            storage: document.getElementById('deviceStorageInput').value.trim(),
-            image: document.getElementById('deviceImageInput').value.trim(),
-            active: document.getElementById('deviceActiveInput').checked
-        };
+        var saveBtn = document.getElementById('modalSave');
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Saving...</span>';
 
         try {
+            // Upload image if a file was selected
+            var imageUrl = document.getElementById('deviceImageInput').value.trim();
+            if (selectedFile) {
+                imageUrl = await uploadImageToStorage(selectedFile);
+            }
+
+            var data = {
+                brand: document.getElementById('deviceBrandInput').value.trim(),
+                name: document.getElementById('deviceNameInput').value.trim(),
+                category: document.getElementById('deviceCategoryInput').value,
+                badge: document.getElementById('deviceBadgeInput').value,
+                price: Number(document.getElementById('devicePriceInput').value),
+                oldPrice: Number(document.getElementById('deviceOldPriceInput').value) || null,
+                processor: document.getElementById('deviceProcessorInput').value.trim(),
+                storage: document.getElementById('deviceStorageInput').value.trim(),
+                image: imageUrl,
+                active: document.getElementById('deviceActiveInput').checked
+            };
+
             if (deviceEditId.value) {
-                // Update existing
                 await db.collection('devices').doc(deviceEditId.value).update(data);
                 showToast('Device updated successfully!', 'fas fa-check-circle');
             } else {
-                // Add new
                 data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
                 await db.collection('devices').add(data);
                 showToast('Device added successfully!', 'fas fa-check-circle');
@@ -494,12 +636,16 @@ function waitForFirebase() {
             console.error('Error saving device:', error);
             showToast('Failed to save device', 'fas fa-exclamation-circle');
         }
+
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i><span>Save Device</span>';
     });
 
     function openEditDevice(id) {
         const device = allDevices.find(d => d.id === id);
         if (!device) return;
 
+        resetUploadState();
         modalTitle.textContent = 'Edit Device';
         document.getElementById('deviceBrandInput').value = device.brand || '';
         document.getElementById('deviceNameInput').value = device.name || '';
@@ -512,6 +658,13 @@ function waitForFirebase() {
         document.getElementById('deviceImageInput').value = device.image || '';
         document.getElementById('deviceActiveInput').checked = device.active !== false;
         deviceEditId.value = id;
+
+        // Show existing image in preview
+        if (device.image) {
+            previewImg.src = device.image;
+            uploadPlaceholder.style.display = 'none';
+            uploadPreview.style.display = 'flex';
+        }
 
         deviceModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';

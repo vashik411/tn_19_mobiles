@@ -22,6 +22,9 @@ const auth = firebase.auth();
 window.TN19Firebase = {
     db,
     auth,
+    // ImgBB API Key - get yours free at https://api.imgbb.com/
+    // Paste your key below after signing up
+    imgbbKey: '5cba07eb58c41678195a60e563e80d7f',
     // collection(db, 'name') -> firestore.collection('name')
     collection: function (dbOrPath, path) {
         var colPath = path || dbOrPath;
