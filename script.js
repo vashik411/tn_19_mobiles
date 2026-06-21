@@ -622,12 +622,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadDevicesFromFirestore() {
-        const FB = window.TN19Firebase;
         const devicesGrid = document.querySelector('.devices-grid');
 
         try {
-            const q = FB.query(FB.collection(FB.db, 'devices'));
-            const snapshot = await FB.getDocs(q);
+            const snapshot = await firebase.firestore().collection('devices').get();
 
             if (snapshot.empty) {
                 // No devices in Firestore, keep the hardcoded ones

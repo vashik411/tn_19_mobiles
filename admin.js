@@ -6,7 +6,7 @@
 function waitForFirebase() {
     return new Promise((resolve) => {
         const check = () => {
-            if (window.TN19Firebase) {
+            if (window.TN19Firebase && window.TN19Firebase.db) {
                 resolve(window.TN19Firebase);
             } else {
                 setTimeout(check, 100);
@@ -18,7 +18,9 @@ function waitForFirebase() {
 
 (async () => {
     const FB = await waitForFirebase();
-    const { db, auth, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot, serverTimestamp, signInWithEmailAndPassword, signOut, onAuthStateChanged } = FB;
+    // Use the Firestore and Auth instances directly (compat API)
+    const db = FB.db;
+    const authInstance = FB.auth;
 
     // === DOM Elements ===
     const adminLogin = document.getElementById('adminLogin');
@@ -102,7 +104,7 @@ function waitForFirebase() {
         loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Signing in...</span>';
 
         try {
-            await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+            await authInstance.signInWithEmailAndPassword(loginEmail.value, loginPassword.value);
         } catch (error) {
             const errorMessages = {
                 'auth/user-not-found': 'No account found with this email.',
@@ -120,14 +122,14 @@ function waitForFirebase() {
     // Logout
     logoutBtn.addEventListener('click', async () => {
         try {
-            await signOut(auth);
+            await authInstance.signOut();
         } catch (error) {
             showToast('Logout failed', 'fas fa-exclamation-circle');
         }
     });
 
     // Auth state observer
-    onAuthStateChanged(auth, (user) => {
+    authInstance.onAuthStateChanged((user) => {
         if (user) {
             adminLogin.style.display = 'none';
             adminDashboard.style.display = 'flex';
@@ -173,16 +175,16 @@ function waitForFirebase() {
     });
 
     // ============================================
-    // ENQUIRIES
+    // ENQUIRIES - Using compat API directly
     // ============================================
 
     function loadEnquiries() {
-        const q = query(collection(db, 'enquiries'), orderBy('createdAt', 'desc'));
-        onSnapshot(q, (snapshot) => {
-            allEnquiries = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            updateEnquiryStats();
-            renderEnquiries();
-        });
+        db.collection('enquiries').orderBy('createdAt', 'desc')
+            .onSnapshot((snapshot) => {
+                allEnquiries = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                updateEnquiryStats();
+                renderEnquiries();
+            });
     }
 
     function updateEnquiryStats() {
@@ -295,7 +297,7 @@ function waitForFirebase() {
     enquiryModalCloseBtn.addEventListener('click', async () => {
         if (currentEnquiryId) {
             try {
-                await updateDoc(doc(db, 'enquiries', currentEnquiryId), { status: 'read' });
+                await db.collection('enquiries').doc(currentEnquiryId).update({ status: 'read' });
             } catch (error) {
                 console.error('Error updating enquiry:', error);
             }
@@ -307,7 +309,7 @@ function waitForFirebase() {
     enquiryDeleteBtn.addEventListener('click', async () => {
         if (currentEnquiryId && confirm('Are you sure you want to delete this enquiry?')) {
             try {
-                await deleteDoc(doc(db, 'enquiries', currentEnquiryId));
+                await db.collection('enquiries').doc(currentEnquiryId).delete();
                 showToast('Enquiry deleted', 'fas fa-check-circle');
                 closeEnquiryModal();
             } catch (error) {
@@ -332,16 +334,16 @@ function waitForFirebase() {
     enquiryFilter.addEventListener('change', renderEnquiries);
 
     // ============================================
-    // DEVICES
+    // DEVICES - Using compat API directly
     // ============================================
 
     function loadDevices() {
-        const q = query(collection(db, 'devices'), orderBy('createdAt', 'desc'));
-        onSnapshot(q, (snapshot) => {
-            allDevices = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            updateDeviceStats();
-            renderDevices();
-        });
+        db.collection('devices').orderBy('createdAt', 'desc')
+            .onSnapshot((snapshot) => {
+                allDevices = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                updateDeviceStats();
+                renderDevices();
+            });
     }
 
     function updateDeviceStats() {
@@ -479,12 +481,12 @@ function waitForFirebase() {
         try {
             if (deviceEditId.value) {
                 // Update existing
-                await updateDoc(doc(db, 'devices', deviceEditId.value), data);
+                await db.collection('devices').doc(deviceEditId.value).update(data);
                 showToast('Device updated successfully!', 'fas fa-check-circle');
             } else {
                 // Add new
-                data.createdAt = serverTimestamp();
-                await addDoc(collection(db, 'devices'), data);
+                data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                await db.collection('devices').add(data);
                 showToast('Device added successfully!', 'fas fa-check-circle');
             }
             closeDeviceModal();
@@ -520,7 +522,7 @@ function waitForFirebase() {
         if (!device) return;
 
         try {
-            await updateDoc(doc(db, 'devices', id), { active: !device.active });
+            await db.collection('devices').doc(id).update({ active: !device.active });
             showToast(device.active ? 'Device hidden' : 'Device now visible', 'fas fa-check-circle');
         } catch (error) {
             showToast('Failed to update device', 'fas fa-exclamation-circle');
@@ -531,7 +533,7 @@ function waitForFirebase() {
         if (!confirm('Are you sure you want to delete this device?')) return;
 
         try {
-            await deleteDoc(doc(db, 'devices', id));
+            await db.collection('devices').doc(id).delete();
             showToast('Device deleted', 'fas fa-check-circle');
         } catch (error) {
             showToast('Failed to delete device', 'fas fa-exclamation-circle');
@@ -552,38 +554,38 @@ function waitForFirebase() {
             {
                 brand: 'Apple', name: 'iPhone 15 Pro Max', category: 'flagship', badge: 'New',
                 price: 129999, oldPrice: 139999, processor: 'A17 Pro', storage: '256GB',
-                image: '', active: true, createdAt: serverTimestamp()
+                image: '', active: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             },
             {
                 brand: 'Samsung', name: 'Galaxy S24 Ultra', category: 'flagship', badge: 'Sale',
                 price: 119999, oldPrice: 134999, processor: 'Snapdragon 8 Gen 3', storage: '512GB',
-                image: '', active: true, createdAt: serverTimestamp()
+                image: '', active: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             },
             {
                 brand: 'OnePlus', name: 'OnePlus 12', category: 'midrange', badge: '',
                 price: 64999, oldPrice: 69999, processor: 'Snapdragon 8 Gen 3', storage: '256GB',
-                image: '', active: true, createdAt: serverTimestamp()
+                image: '', active: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             },
             {
                 brand: 'Xiaomi', name: 'Redmi Note 13 Pro+', category: 'midrange', badge: 'New',
                 price: 32999, oldPrice: 35999, processor: 'Dimensity 7200', storage: '256GB',
-                image: '', active: true, createdAt: serverTimestamp()
+                image: '', active: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             },
             {
                 brand: 'Realme', name: 'Realme Narzo 70x', category: 'budget', badge: '',
                 price: 14999, oldPrice: 16999, processor: 'Dimensity 6300', storage: '128GB',
-                image: '', active: true, createdAt: serverTimestamp()
+                image: '', active: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             },
             {
                 brand: 'Apple', name: 'iPhone 14 Pro', category: 'refurbished', badge: 'Refurbished',
                 price: 54999, oldPrice: 79999, processor: 'A16 Bionic', storage: '128GB',
-                image: '', active: true, createdAt: serverTimestamp()
+                image: '', active: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }
         ];
 
         try {
             for (const device of demoDevices) {
-                await addDoc(collection(db, 'devices'), device);
+                await db.collection('devices').add(device);
             }
             showToast('Demo devices added successfully!', 'fas fa-check-circle');
         } catch (error) {
@@ -617,12 +619,12 @@ function waitForFirebase() {
             const diffDay = Math.floor(diffMs / 86400000);
 
             if (diffMin < 1) return 'Just now';
-            if (diffMin < 60) return `${diffMin}m ago`;
-            if (diffHr < 24) return `${diffHr}h ago`;
-            if (diffDay < 7) return `${diffDay}d ago`;
+            if (diffMin < 60) return diffMin + 'm ago';
+            if (diffHr < 24) return diffHr + 'h ago';
+            if (diffDay < 7) return diffDay + 'd ago';
 
             return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-        } catch {
+        } catch (e) {
             return 'Unknown';
         }
     }
@@ -631,20 +633,21 @@ function waitForFirebase() {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    function showToast(message, icon = 'fas fa-info-circle') {
-        const container = document.getElementById('toastContainer') || document.body;
-        const toast = document.createElement('div');
+    function showToast(message, icon) {
+        icon = icon || 'fas fa-info-circle';
+        var container = document.getElementById('toastContainer') || document.body;
+        var toast = document.createElement('div');
         toast.className = 'toast';
-        toast.innerHTML = `<i class="${icon}"></i><span>${message}</span>`;
+        toast.innerHTML = '<i class="' + icon + '"></i><span>' + message + '</span>';
         container.appendChild(toast);
 
-        requestAnimationFrame(() => {
+        requestAnimationFrame(function () {
             toast.classList.add('show');
         });
 
-        setTimeout(() => {
+        setTimeout(function () {
             toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
+            setTimeout(function () { toast.remove(); }, 300);
         }, 3500);
     }
 
