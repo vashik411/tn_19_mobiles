@@ -162,8 +162,8 @@ function waitForFirebase() {
     }
 
     async function uploadImageToStorage(file) {
-        var imgbbApiKey = FB.imgbbKey;
-        if (!imgbbApiKey || imgbbApiKey === '5cba07eb58c41678195a60e563e80d7f') {
+        var imgbbApiKey = (FB && FB.imgbbKey) ? FB.imgbbKey : '5cba07eb58c41678195a60e563e80d7f';
+        if (!imgbbApiKey || imgbbApiKey === 'YOUR_IMGBB_API_KEY') {
             throw new Error('ImgBB API key not configured. Sign up free at imgbb.com and paste your key in firebase-config.js');
         }
 
