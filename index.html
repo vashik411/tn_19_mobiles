@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TN19 Mobiles - Sale | Service | Buy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <span class="loader-tn">TN</span><span class="loader-19">19</span>
+            </div>
+            <div class="loader-bar">
+                <div class="loader-bar-fill"></div>
+            </div>
+            <p class="loader-text">Initializing Future...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-tn">TN</span><span class="logo-19">19</span>
+                <span class="logo-text">MOBILES</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="#services" class="nav-link" data-section="services">Services</a>
+                <a href="#devices" class="nav-link" data-section="devices">Devices</a>
+                <a href="#sell" class="nav-link" data-section="sell">Sell Your Phone</a>
+                <a href="#about" class="nav-link" data-section="about">About</a>
+                <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#contact" class="nav-cta">Get Started</a>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-bolt"></i>
+                <span>Next-Gen Mobile Solutions</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-line">The Future of</span>
+                <span class="hero-line gradient-text">Mobile Technology</span>
+                <span class="hero-line">Starts Here</span>
+            </h1>
+            <p class="hero-subtitle">
+                Buy, sell, and service your mobile devices with cutting-edge technology. 
+                TN19 Mobiles brings you the most advanced mobile experience with AI-powered diagnostics 
+                and instant valuations.
+            </p>
+            <div class="hero-buttons">
+                <a href="#devices" class="btn btn-primary">
+                    <i class="fas fa-mobile-screen-button"></i>
+                    <span>Explore Devices</span>
+                </a>
+                <a href="#sell" class="btn btn-secondary">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Sell Your Phone</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="15000">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Devices Sold</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="8500">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Phones Serviced</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="98">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">Customer Satisfaction</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="phone-showcase">
+                <div class="phone-glow"></div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="phone-notch"></div>
+                        <div class="phone-ui">
+                            <div class="phone-ui-header">
+                                <div class="phone-ui-time">9:41</div>
+                                <div class="phone-ui-icons">
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="phone-ui-content">
+                                <div class="phone-ui-greeting">Welcome to</div>
+                                <div class="phone-ui-logo">TN19</div>
+                                <div class="phone-ui-buttons">
+                                    <div class="phone-ui-btn buy">Buy</div>
+                                    <div class="phone-ui-btn sell">Sell</div>
+                                    <div class="phone-ui-btn service">Service</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-card card-1">
+                    <i class="fas fa-shield-halved"></i>
+                    <span>Warranty Protected</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-bolt"></i>
+                    <span>Instant Payment</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-wrench"></i>
+                    <span>Expert Repair</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="mouse-wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-cogs"></i> Our Services</span>
+                <h2 class="section-title">Three Pillars of <span class="gradient-text">Excellence</span></h2>
+                <p class="section-desc">From buying your dream device to fixing it when things go wrong, we've got you covered with our comprehensive mobile solutions.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card" data-service="buy">
+                    <div class="service-card-bg"></div>
+                    <div class="service-icon">
+                        <div class="service-icon-ring"></div>
+                        <i class="fas fa-cart-shopping"></i>
+                    </div>
+                    <h3>Buy New & Refurbished</h3>
+                    <p>Premium smartphones at unbeatable prices. Every device comes with quality certification and warranty coverage.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Latest Flagship Models</li>
+                        <li><i class="fas fa-check-circle"></i> Certified Refurbished</li>
+                        <li><i class="fas fa-check-circle"></i> EMI Options Available</li>
+                        <li><i class="fas fa-check-circle"></i> Free Home Delivery</li>
+                    </ul>
+                    <a href="#devices" class="service-link">
+                        <span>Browse Devices</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="service-card featured" data-service="service">
+                    <div class="service-badge">Most Popular</div>
+                    <div class="service-card-bg"></div>
+                    <div class="service-icon">
+                        <div class="service-icon-ring"></div>
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <h3>Expert Service & Repair</h3>
+                    <p>AI-powered diagnostics and expert technicians restore your device to peak performance in record time.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> AI Diagnostic Testing</li>
+                        <li><i class="fas fa-check-circle"></i> Screen Replacement</li>
+                        <li><i class="fas fa-check-circle"></i> Battery Health Check</li>
+                        <li><i class="fas fa-check-circle"></i> Software Optimization</li>
+                    </ul>
+                    <a href="#contact" class="service-link">
+                        <span>Book Repair</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="service-card" data-service="sell">
+                    <div class="service-card-bg"></div>
+                    <div class="service-icon">
+                        <div class="service-icon-ring"></div>
+                        <i class="fas fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3>Sell & Exchange</h3>
+                    <p>Get the best value for your old device with our AI-powered instant valuation and same-day payment system.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Instant Price Quote</li>
+                        <li><i class="fas fa-check-circle"></i> Same-Day Payment</li>
+                        <li><i class="fas fa-check-circle"></i> Free Pickup Service</li>
+                        <li><i class="fas fa-check-circle"></i> Data Wipe Guarantee</li>
+                    </ul>
+                    <a href="#sell" class="service-link">
+                        <span>Get Valuation</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-route"></i> How It Works</span>
+                <h2 class="section-title">Seamless <span class="gradient-text">Process</span></h2>
+                <p class="section-desc">Our streamlined process makes buying, selling, or servicing your mobile device effortless.</p>
+            </div>
+            <div class="process-timeline">
+                <div class="process-line"></div>
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <div class="step-icon"><i class="fas fa-mobile-screen"></i></div>
+                        <h4>Choose Your Service</h4>
+                        <p>Select from buying, selling, or repairing your device.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <div class="step-icon"><i class="fas fa-robot"></i></div>
+                        <h4>AI Evaluation</h4>
+                        <p>Our AI system evaluates your device condition and provides instant pricing.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <div class="step-icon"><i class="fas fa-handshake"></i></div>
+                        <h4>Confirm & Process</h4>
+                        <p>Review the offer, confirm details, and proceed with the transaction.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <div class="step-icon"><i class="fas fa-rocket"></i></div>
+                        <h4>Quick Delivery</h4>
+                        <p>Get your device delivered or receive instant payment for your trade-in.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Devices Section -->
+    <section class="devices" id="devices">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-mobile-retro"></i> Featured Devices</span>
+                <h2 class="section-title">Explore Our <span class="gradient-text">Collection</span></h2>
+                <p class="section-desc">Handpicked devices that combine performance, design, and value.</p>
+            </div>
+            <div class="devices-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="flagship">Flagship</button>
+                <button class="filter-btn" data-filter="midrange">Mid-Range</button>
+                <button class="filter-btn" data-filter="budget">Budget</button>
+                <button class="filter-btn" data-filter="refurbished">Refurbished</button>
+            </div>
+            <div class="devices-grid">
+                <div class="device-card" data-category="flagship">
+                    <div class="device-card-inner">
+                        <div class="device-badge">New</div>
+                        <div class="device-image">
+                            <div class="device-placeholder">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">Apple</div>
+                            <h3>iPhone 15 Pro Max</h3>
+                            <div class="device-specs">
+                                <span><i class="fas fa-microchip"></i> A17 Pro</span>
+                                <span><i class="fas fa-memory"></i> 256GB</span>
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹1,29,999</span>
+                                <span class="price-old">₹1,39,999</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-card" data-category="flagship">
+                    <div class="device-card-inner">
+                        <div class="device-badge sale">Sale</div>
+                        <div class="device-image">
+                            <div class="device-placeholder">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">Samsung</div>
+                            <h3>Galaxy S24 Ultra</h3>
+                            <div class="device-specs">
+                                <span><i class="fas fa-microchip"></i> Snapdragon 8 Gen 3</span>
+                                <span><i class="fas fa-memory"></i> 512GB</span>
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹1,19,999</span>
+                                <span class="price-old">₹1,34,999</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-card" data-category="midrange">
+                    <div class="device-card-inner">
+                        <div class="device-image">
+                            <div class="device-placeholder">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">OnePlus</div>
+                            <h3>OnePlus 12</h3>
+                            <div class="device-specs">
+                                <span><i class="fas fa-microchip"></i> Snapdragon 8 Gen 3</span>
+                                <span><i class="fas fa-memory"></i> 256GB</span>
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹64,999</span>
+                                <span class="price-old">₹69,999</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-card" data-category="midrange">
+                    <div class="device-card-inner">
+                        <div class="device-badge">New</div>
+                        <div class="device-image">
+                            <div class="device-placeholder">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">Xiaomi</div>
+                            <h3>Redmi Note 13 Pro+</h3>
+                            <div class="device-specs">
+                                <span><i class="fas fa-microchip"></i> Dimensity 7200</span>
+                                <span><i class="fas fa-memory"></i> 256GB</span>
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹32,999</span>
+                                <span class="price-old">₹35,999</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-card" data-category="budget">
+                    <div class="device-card-inner">
+                        <div class="device-image">
+                            <div class="device-placeholder">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">Realme</div>
+                            <h3>Realme Narzo 70x</h3>
+                            <div class="device-specs">
+                                <span><i class="fas fa-microchip"></i> Dimensity 6300</span>
+                                <span><i class="fas fa-memory"></i> 128GB</span>
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹14,999</span>
+                                <span class="price-old">₹16,999</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-card" data-category="refurbished">
+                    <div class="device-card-inner">
+                        <div class="device-badge refurbished">Refurbished</div>
+                        <div class="device-image">
+                            <div class="device-placeholder">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div class="device-overlay">
+                                <button class="btn btn-small">View Details</button>
+                            </div>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-brand">Apple</div>
+                            <h3>iPhone 14 Pro</h3>
+                            <div class="device-specs">
+                                <span><i class="fas fa-microchip"></i> A16 Bionic</span>
+                                <span><i class="fas fa-memory"></i> 128GB</span>
+                            </div>
+                            <div class="device-price">
+                                <span class="price-current">₹54,999</span>
+                                <span class="price-old">₹79,999</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="btn btn-primary btn-small"><i class="fas fa-cart-plus"></i> Buy Now</button>
+                                <button class="btn btn-outline btn-small"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="devices-cta">
+                <a href="#" class="btn btn-primary">
+                    <span>View All Devices</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sell Your Phone Section -->
+    <section class="sell-section" id="sell">
+        <div class="section-container">
+            <div class="sell-content">
+                <div class="sell-left">
+                    <span class="section-tag"><i class="fas fa-coins"></i> Sell Your Phone</span>
+                    <h2 class="section-title">Get the Best Price for <span class="gradient-text">Your Device</span></h2>
+                    <p>Our AI-powered valuation engine analyzes your device condition, market demand, and current pricing to give you the most accurate and competitive price.</p>
+                    
+                    <div class="valuation-form">
+                        <h3><i class="fas fa-calculator"></i> Instant Valuation</h3>
+                        <div class="form-group">
+                            <label>Device Brand</label>
+                            <select id="deviceBrand">
+                                <option value="">Select Brand</option>
+                                <option value="apple">Apple</option>
+                                <option value="samsung">Samsung</option>
+                                <option value="oneplus">OnePlus</option>
+                                <option value="xiaomi">Xiaomi</option>
+                                <option value="realme">Realme</option>
+                                <option value="vivo">Vivo</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Device Model</label>
+                            <select id="deviceModel">
+                                <option value="">Select Model</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Device Condition</label>
+                            <div class="condition-selector">
+                                <button class="condition-btn" data-condition="excellent">
+                                    <i class="fas fa-star"></i>
+                                    <span>Excellent</span>
+                                    <small>No scratches, perfect</small>
+                                </button>
+                                <button class="condition-btn" data-condition="good">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>Good</span>
+                                    <small>Minor wear</small>
+                                </button>
+                                <button class="condition-btn active" data-condition="fair">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Fair</span>
+                                    <small>Visible scratches</small>
+                                </button>
+                                <button class="condition-btn" data-condition="damaged">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Damaged</span>
+                                    <small>Cracked/Broken</small>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" id="getValuation">
+                            <i class="fas fa-magic"></i>
+                            <span>Get Instant Valuation</span>
+                        </button>
+                        <div class="valuation-result" id="valuationResult">
+                            <div class="result-price">
+                                <span class="result-label">Estimated Value</span>
+                                <span class="result-amount" id="estimatedPrice">₹0</span>
+                            </div>
+                            <button class="btn btn-secondary btn-block">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Sell Now</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="sell-right">
+                    <div class="sell-benefits">
+                        <h3>Why Sell with TN19?</h3>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="benefit-text">
+                                <h4>Instant Payment</h4>
+                                <p>Receive payment within minutes of device verification via UPI, bank transfer, or cash.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="fas fa-shield-halved"></i></div>
+                            <div class="benefit-text">
+                                <h4>Data Security</h4>
+                                <p>We perform certified data wipe ensuring your personal information is completely erased.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="fas fa-truck-pickup"></i></div>
+                            <div class="benefit-text">
+                                <h4>Free Pickup</h4>
+                                <p>Schedule a free pickup from your doorstep. No need to visit our store.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="benefit-text">
+                                <h4>Best Market Price</h4>
+                                <p>AI-powered pricing ensures you always get the best deal based on real-time market data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-container">
+            <div class="about-content">
+                <div class="about-visual">
+                    <div class="about-image-grid">
+                        <div class="about-img-card card-1">
+                            <i class="fas fa-store"></i>
+                            <span>Our Store</span>
+                        </div>
+                        <div class="about-img-card card-2">
+                            <i class="fas fa-users"></i>
+                            <span>Our Team</span>
+                        </div>
+                        <div class="about-img-card card-3">
+                            <i class="fas fa-tools"></i>
+                            <span>Service Lab</span>
+                        </div>
+                        <div class="about-img-card card-4">
+                            <i class="fas fa-award"></i>
+                            <span>Awards</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <span class="section-tag"><i class="fas fa-building"></i> About Us</span>
+                    <h2 class="section-title">The Story Behind <span class="gradient-text">TN19 Mobiles</span></h2>
+                    <p>Founded with a vision to revolutionize the mobile retail experience, TN19 Mobiles has grown from a small local shop to a trusted name in mobile technology. We combine cutting-edge AI technology with personalized customer service to deliver an unmatched experience.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="feature-check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Certified Pre-Owned Devices</h4>
+                                <p>Every refurbished device undergoes 50+ quality checks before listing.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Trained Technicians</h4>
+                                <p>Our repair team is certified and trained on the latest device models.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-check"><i class="fas fa-check"></i></div>
+                            <div>
+                                <h4>Transparent Pricing</h4>
+                                <p>No hidden charges. What you see is what you pay.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-quote-left"></i> Testimonials</span>
+                <h2 class="section-title">What Our <span class="gradient-text">Customers Say</span></h2>
+                <p class="section-desc">Real stories from real customers who trust TN19 Mobiles.</p>
+            </div>
+            <div class="testimonials-carousel" id="testimonialsCarousel">
+                <div class="testimonial-track">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"Sold my old iPhone and got the best price ever. The entire process took less than 30 minutes. Highly recommend TN19 Mobiles!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h4>Rajesh Kumar</h4>
+                                <span>Verified Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"Got my cracked screen fixed in just 2 hours. The quality of repair was amazing and the price was very reasonable. Will come back again!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h4>Priya Sharma</h4>
+                                <span>Verified Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p>"Bought a refurbished Samsung Galaxy and it looks brand new! Their quality certification really means something. Great service team."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h4>Arjun Patel</h4>
+                                <span>Verified Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"The EMI options made it easy for me to buy the latest OnePlus. Their staff is knowledgeable and helped me choose the perfect phone."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"><i class="fas fa-user"></i></div>
+                            <div>
+                                <h4>Meena Devi</h4>
+                                <span>Verified Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <button class="carousel-btn next" id="carouselNext"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-headset"></i> Contact Us</span>
+                <h2 class="section-title">Get in <span class="gradient-text">Touch</span></h2>
+                <p class="section-desc">Have a question or need assistance? We're here to help.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-location-dot"></i></div>
+                        <h4>Visit Us</h4>
+                        <p>TN19 Mobiles<br>Main Market Road, Near Bus Stand<br>Town - 500001</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <h4>Call Us</h4>
+                        <p>+91 98765 43210<br>+91 87654 32109</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <h4>Email Us</h4>
+                        <p>info@tn19mobiles.com<br>support@tn19mobiles.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <h4>Business Hours</h4>
+                        <p>Mon - Sat: 9:00 AM - 9:00 PM<br>Sunday: 10:00 AM - 6:00 PM</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" placeholder="Enter your phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="service">Service Type</label>
+                                <select id="service" required>
+                                    <option value="">Select Service</option>
+                                    <option value="buy">Buy New Phone</option>
+                                    <option value="sell">Sell Your Phone</option>
+                                    <option value="repair">Repair / Service</option>
+                                    <option value="exchange">Exchange</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="4" placeholder="Tell us how we can help..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="section-container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h2>Stay Updated with <span class="gradient-text">TN19</span></h2>
+                    <p>Get the latest deals, new arrivals, and exclusive offers delivered to your inbox.</p>
+                </div>
+                <form class="newsletter-form" id="newsletterForm">
+                    <div class="newsletter-input-group">
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Subscribe</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <span class="logo-tn">TN</span><span class="logo-19">19</span>
+                        <span class="logo-text">MOBILES</span>
+                    </a>
+                    <p>Your trusted partner for buying, selling, and servicing mobile devices. Experience the future of mobile retail with TN19.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#devices">Devices</a></li>
+                        <li><a href="#sell">Sell Phone</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Buy New Phone</a></li>
+                        <li><a href="#">Buy Refurbished</a></li>
+                        <li><a href="#">Sell Your Phone</a></li>
+                        <li><a href="#">Phone Repair</a></li>
+                        <li><a href="#">Screen Replacement</a></li>
+                        <li><a href="#">Battery Replacement</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Warranty Policy</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TN19 Mobiles. All rights reserved.</p>
+                <p>Crafted with <i class="fas fa-heart" style="color: #ff006e;"></i> for mobile enthusiasts</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/919876543210" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
